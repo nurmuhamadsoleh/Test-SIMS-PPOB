@@ -13,7 +13,8 @@ const store: any = persist(
         name: 'auth',
         partialize: (state: any) => ({
             token: state.token,
-            profile: state.profile
+            profile: state.profile,
+            selectedJenistrx: state.selectedJenistrx
         }),
     }
 )

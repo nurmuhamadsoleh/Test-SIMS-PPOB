@@ -8,6 +8,8 @@ export default function HomePageContainer() {
   const {data: dataBanner} = useQuery(['Get Banner List'], GetBanner)
   const {data: dataService} = useQuery(['Get Service List'], GetServiceAPI)
   return (
+    <>
     <HomePageComponent dataBanner={dataBanner} dataService={dataService}/>
+    </>
   )
 }

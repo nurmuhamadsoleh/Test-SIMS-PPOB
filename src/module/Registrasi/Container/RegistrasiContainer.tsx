@@ -16,7 +16,6 @@ export default function RegistrasiContainer() {
       }
     },
      onError: (error: any) => {
-      console.log("ststus error", error.response.data.status)
       if (error.message === 'Network Error') {
         toast.warning(error.message)
       } else if(error.response.data.status === 102){
@@ -27,7 +26,6 @@ export default function RegistrasiContainer() {
   })
   const handleSubmit = (vals:any) =>{
     mutateRegister.mutate(vals)
-  console.log("vals", vals)
   }
   return (
     <RegistrasiComponent handleSubmit={handleSubmit} isLoadingSubmit={mutateRegister.isLoading}/>

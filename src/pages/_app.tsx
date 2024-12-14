@@ -50,7 +50,6 @@ export default function App({ Component, pageProps }: AppProps) {
       router.events.off("routeChangeError", handleStop);
     };
   }, [router]);
-  console.log("app token", token)
   const GetProfileList = async (): Promise<void> => {
   try {
     const response = await axios.get(
@@ -59,14 +58,13 @@ export default function App({ Component, pageProps }: AppProps) {
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
-          "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InVzZXJAbnV0ZWNoLWludGVncmFzaS5jb20iLCJtZW1iZXJDb2RlIjoiTExLUjZKTDEiLCJpYXQiOjE3MzQwOTk2MDYsImV4cCI6MTczNDE0MjgwNn0._yy5Jvo7YZC_CJcN-QbDgWvsKAhp0GJkC3XKFePUnZU`,
+          "Authorization": "Bearer " + token,
         },
       }
     );
     const data = response;
-    console.log("data", data)
     if(data?.data?.status === 0){
-      setProfile(data?.data)
+      setProfile(data?.data?.data)
       return
     }
   } catch (error:any) {
@@ -76,7 +74,6 @@ export default function App({ Component, pageProps }: AppProps) {
       toast.error(error.response.data.message)
       router.push('/login')
       logOut()
-      localStorage.clear()
     } else {
       toast.error(error.message)
       return
@@ -85,14 +82,24 @@ export default function App({ Component, pageProps }: AppProps) {
 };
 
 useEffect(() => {
-  if(token !== ""){
-    GetProfileList();
-  }
-}, []);
+  if (token) {
+        GetProfileList()
+        const intervalId = setInterval(
+          () => {
+            GetProfileList()
+          },
+          5000
+          // 5 * 60 * 1000 // 5 menit dalam milidetik
+        ) // 4 jam dalam milidetik
+
+        return () => clearInterval(intervalId) // Bersihkan interval saat komponen di-unmount
+      }
+}, [token]);
   const [queryClient] = useState(() => new QueryClient());
   return (
    <QueryClientProvider client={queryClient}>
       <Component {...pageProps} />
+      <ToastContainer />
     </QueryClientProvider>
   );
 }

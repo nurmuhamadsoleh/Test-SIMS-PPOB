@@ -5,6 +5,7 @@ import { LockFilled, MailOutlined } from '@ant-design/icons';
 import IlustrationLogin from "assets/images/Illustrasi Login.png"
 import Image from "next/image";
 import Input from "component/Input";
+import Link from "next/link";
 import LoginValidation from "../Validation/LoginValidation";
 import Logo from "assets/images/Logo.png"
 import React from 'react'
@@ -21,10 +22,6 @@ export default function LoginComponent(props: IProps) {
             <Form onSubmit={handleSubmit} validate={LoginValidation} keepDirtyOnReinitialize subscription={{values: true}}>
           {(formProps) =>{
             const {handleSubmit, invalid, dirty, form} = formProps
-            // if(isLoadingSubmit){
-            //   form.reset();
-            //   return
-            // }
             return (
              <div className="h-full w-full flex items-center justify-center">
               <div className="w-1/2 bg-green-600 ">
@@ -65,7 +62,7 @@ export default function LoginComponent(props: IProps) {
                   >
                     Masuk
                   </Button>
-                  <p>belum punya akun? register <span className="font-bold text-red-600">disini</span></p>
+                  <p>belum punya akun? register <Link className="font-bold text-red-600 underline underline-offset-2 cursor-pointer" href={"/"} replace>disini</Link></p>
                 </div>
               </FormANTD>
               </div>

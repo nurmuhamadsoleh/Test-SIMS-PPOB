@@ -5,6 +5,7 @@ import { LockFilled, MailOutlined, UserOutlined } from '@ant-design/icons';
 import IlustrationLogin from "assets/images/Illustrasi Login.png"
 import Image from "next/image";
 import Input from "component/Input";
+import Link from "next/link";
 import Logo from "assets/images/Logo.png"
 import React from 'react'
 import RegistrasiValidation from "../Validation/RegistrasiValidation";
@@ -22,10 +23,6 @@ export default function RegistrasiComponent(props: IProps) {
             <Form onSubmit={handleSubmit} validate={RegistrasiValidation}>
           {(formProps) =>{
             const {handleSubmit, invalid, dirty, form} = formProps
-            if(isLoadingSubmit) {
-              form.reset();
-              return null;
-            }
             return (
              <div className="h-full w-full flex items-center justify-center">
               <div className="w-1/2 bg-green-600 ">
@@ -96,10 +93,11 @@ export default function RegistrasiComponent(props: IProps) {
                     size="middle"
                     htmlType="submit"
                     disabled={invalid}
+                    loading={isLoadingSubmit}
                   >
                     Registrasi
                   </Button>
-                  <p>sudah punya akun? login <span className="font-bold text-red-600">disini</span></p>
+                  <p className="text-sm text-black">sudah punya akun? login <Link className="font-bold text-red-600" href={"/login"} replace>disini</Link></p>
                 </div>
               </FormANTD>
               </div>

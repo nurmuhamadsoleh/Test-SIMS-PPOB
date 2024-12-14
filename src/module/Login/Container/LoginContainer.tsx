@@ -8,17 +8,16 @@ import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 
 export default function LoginContainer() {
+  const { setToken, }: IStore = Store()
   const router = useRouter()
-  const { setToken }: IStore = Store()
   const mutateLogin = useMutation(Login, {
     onSuccess: (data:any) => {
-      console.log("data", data)
-      setToken(data)
-      // if(data.status === 0){
-      //   console.log("berhasil masul")
-      //   // router.push("/dashboard")
-      //   return
-      // }
+      if(data?.status === 0){
+        toast.success(data?.message)
+        setToken(data)
+        router.push("/homepage")
+        return 
+      }
     },
      onError: (error: any) => {
       if (error.message === 'Network Error') {

@@ -36,3 +36,13 @@ export async function GetServiceAPI(params: UseBaseQueryOptions): Promise<IReque
     });
     return data;
 }
+export async function Transaksi(params: any){
+    const { data } = await axios.post('https://take-home-test-api.nutech-integrasi.com/transaction', params, {
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+            "Authorization": "Bearer " + state?.token,
+        }
+    })
+    return data
+}

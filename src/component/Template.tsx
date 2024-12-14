@@ -18,18 +18,18 @@ export default function Template(props: IProps) {
     }
   return (
     <div className=''>
-      <div className='h-[10vh] bg-red-600 flex items-center '>
-        <div className='flex justify-start w-10/12 bg-yellow-100'>
+      <div className='h-[10vh]  flex items-center '>
+        <div className='flex justify-start w-10/12 '>
         <div className='flex items-center gap-x-2'>
          <Image src={Logo} width={20} height={20} alt='Logo SIMS PPOB'/>
           <h1 className='text-xl'>SIMS PPOB</h1></div>
         </div>
         <div className="flex justify-end w-1/5 bg-pink-600 text-black">
-          <div className="w-full bg-green-600">
+          <div className="w-full ">
             <ul className="list-none flex gap-x-3 justify-center"> 
-              <li><Link href="/" className="no-underline text-black hover:text-white hover:font-bold font-medium">Top Up</Link></li>
-              <li><Link href="/" className="no-underline text-black hover:text-white hover:font-bold font-medium">Transaction</Link></li>
-              <li><Link href="/" className="no-underline text-black hover:text-white hover:font-bold font-medium">Akun</Link></li>
+              <li><Link href="/" className="no-underline text-black hover:text-white hover:font-bold font-medium hover:underline hover:underline-offset-2 hover:decoration-red-600 hover:pt-2 cursor-pointer">Top Up</Link></li>
+              <li><Link href="/historypembayaran" className="no-underline text-black hover:text-white hover:font-bold font-medium hover:underline hover:underline-offset-2 hover:decoration-red-600 hover:pt-2 cursor-pointer">Transaction</Link></li>
+              <li><Link href="/profile" className="no-underline text-black hover:text-white hover:font-bold font-medium hover:underline hover:underline-offset-2 hover:decoration-red-600 hover:pt-2 cursor-pointer">Akun</Link></li>
             </ul>
           </div>
         </div>

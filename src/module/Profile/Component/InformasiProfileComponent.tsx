@@ -5,11 +5,13 @@ import {
 } from 'antd'
 import { EditOutlined, MailOutlined, UserOutlined } from '@ant-design/icons'
 import { Field, Form } from 'react-final-form'
+import Store, { IStore } from 'store'
 
 import Image from 'next/image'
 import Input from 'component/Input'
 import React from 'react'
 import { useRouter } from 'next/router'
+import { values } from 'lodash'
 
 interface IProps {
   initialValues?:any;  
@@ -18,7 +20,7 @@ interface IProps {
 export default function InformasiProfileComponent(props:IProps) {
     const {initialValues, handleSubmit} = props
     const router = useRouter()
-    console.log("initialValues", initialValues)
+    const {profile, logOut }: IStore = Store()
   return (
     <div className='px-2 bg-yellow-500'>
         <div className='flex justify-center flex-col mx-auto'>
@@ -31,7 +33,8 @@ export default function InformasiProfileComponent(props:IProps) {
            <div className='w-9/12 bg-green-600 mx-auto'>
             <Form keepDirtyOnReinitialize onSubmit={handleSubmit} subscription={{values: true}} initialValues={initialValues}>
                 {(formProps )=>{
-                    const {dirty, invalid, handleSubmit} = formProps
+                    const {dirty, invalid, handleSubmit, values} = formProps
+                    console.log("profile", {profile, values})
                     return (
                         <FormANTD layout="vertical" onFinish={handleSubmit} >
                             <div className='w-full bg-yellow-600'>
@@ -77,8 +80,22 @@ export default function InformasiProfileComponent(props:IProps) {
                                 </div>
                             </div>
                             <div className='flex-wrap flex-col  bg-green-600 -mt-0'>
-                                <Button size='large' className="w-full text-red-600 bg-white text-center border-solid border-2 border-red-600 mb-3" htmlType="submit" onMouseEnter={() => false} disabled={invalid}>Edit Profile</Button> 
-                                <Button size='large' className="w-full bg-red-600 text-center text-white" htmlType="submit" onClick={()=> router.push('/login')} onMouseEnter={() => false} disabled={invalid}>Logout</Button> 
+                                {(profile?.first_name !== values?.first_name || profile?.last_name !== values?.last_name) && (
+                                <Button
+                                    size="large"
+                                    className="w-full text-red-600 bg-white text-center border-solid border-2 border-red-600 mb-3"
+                                    htmlType="submit"
+                                    onMouseEnter={() => false}
+                                   
+                                >
+                                    Edit Profile
+                                </Button>
+                                )}
+
+                                <Button size='large' className="w-full bg-red-600 text-center text-white" htmlType="submit" onClick={()=> {
+                                    logOut()
+                                    router.push('/login')
+                                }} onMouseEnter={() => false} disabled={invalid}>Logout</Button> 
                             </div>
                         </FormANTD>
                     )
