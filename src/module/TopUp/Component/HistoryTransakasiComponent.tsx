@@ -3,21 +3,18 @@ import React, { useEffect, useState } from 'react'
 import Banner from 'component/Banner'
 import dayjs from 'dayjs';
 import formatMoney from 'helpers/formatMoney';
-import index from 'pages';
 
 interface IProps {
-    refForm: React.MutableRefObject<any>
     dataListHistory?:any
     handlePagination: (_vals: number) => void
 }
 export default function HistoryTransakasiComponent(props: IProps) {
-    const {refForm, dataListHistory, handlePagination} = props;    
+    const {dataListHistory, handlePagination} = props;    
     return (
     <div className='px-2'>
         <Banner/>
         <p className='font-bold text-xl'>Semua Transaksi</p>
-        <div  ref={refForm}
-            style={{ height: "350px", overflowY: "scroll", border: "1px solid gray" }}>
+        <div >
             {dataListHistory?.map((item: any, index: number) => (
             <div 
             key={index} 
@@ -36,7 +33,7 @@ export default function HistoryTransakasiComponent(props: IProps) {
             </div>
             ))}
             {/* Show More Ubah Pagination */}
-            <h1 className="text-red-500 text-xl text-center mt-2 cursor-pointer" onClick={()=> handlePagination(1)}>Show More</h1>
+            <h1 className="text-green-600 text-xl text-center mt-2 cursor-pointer" onClick={()=> handlePagination(1)}>Show More</h1>
         </div>
     </div>
   )

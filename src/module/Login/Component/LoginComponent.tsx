@@ -18,19 +18,19 @@ export default function LoginComponent(props: IProps) {
     const {handleSubmit, isLoadingSubmit} = props
   return (
       <div className="flex h-screen overflow-hidden">
-          <div className="w-1/2 bg-yellow-500 ">
+          <div className="w-1/2">
             <Form onSubmit={handleSubmit} validate={LoginValidation} keepDirtyOnReinitialize subscription={{values: true}}>
           {(formProps) =>{
             const {handleSubmit, invalid, dirty, form} = formProps
             return (
              <div className="h-full w-full flex items-center justify-center">
-              <div className="w-1/2 bg-green-600 ">
+              <div className="w-1/2 ">
               <div className="flex items-center justify-center gap-1">
                 <Image src={Logo} width={20} height={20} alt="Logo SIMS PPDB" aria-label="Logo SIMS PPDB" />
                 <h1 className="text-xl text-center">SIMS PPDB</h1>
               </div>
               <h3 className="text-3xl text-center">Masuk atau buat akun untuk memulai</h3>
-              <div className="flex justify-center bg-blue-700">
+              <div className="flex justify-center">
                 <FormANTD layout="vertical" onFinish={handleSubmit} className="mx-auto">
                  <Field 
                   name='email'

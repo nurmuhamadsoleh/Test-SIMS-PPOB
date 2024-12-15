@@ -15,8 +15,11 @@ import { useEffect, useState } from "react";
 
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import NotFoundContainer from "module/404/Container/NotFoundContainer";
+import OfflinePageContainer from "module/404/Container/OfflinePageContainer";
 import { PulseLoader } from "react-spinners";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import RegistrasiContainer from "module/Registrasi/Container/RegistrasiContainer";
+import Template from "component/Template";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -26,8 +29,13 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
    const {setProfile, token, logOut }: IStore = Store()
   const [isLoading, setIsLoading] = useState(false);
-
+  const [statusPage, setStatusPage] = useState(true);
+  const [showChild, setShowChild] = useState(false);
+  
   useEffect(() => {
+    const changeStatus = () =>{
+      setStatusPage(navigator.onLine)
+    }
     const handleStart = () => {
       setIsLoading(true);
     };
@@ -39,7 +47,8 @@ export default function App({ Component, pageProps }: AppProps) {
     const handleComplete = () => {
       setIsLoading(false);
     };
-
+    window.addEventListener('online', changeStatus)
+    window.addEventListener('offline', changeStatus)
     router.events.on("routeChangeStart", handleStart);
     router.events.on("routeChangeComplete", handleComplete);
     router.events.on("routeChangeError", handleStop);
@@ -50,6 +59,14 @@ export default function App({ Component, pageProps }: AppProps) {
       router.events.off("routeChangeError", handleStop);
     };
   }, [router]);
+   const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: true,
+        cacheTime: 5000,
+      },
+    },
+  });
   const GetProfileList = async (): Promise<void> => {
   try {
     const response = await axios.get(
@@ -88,18 +105,67 @@ useEffect(() => {
           () => {
             GetProfileList()
           },
-          5000
+          500
           // 5 * 60 * 1000 // 5 menit dalam milidetik
         ) // 4 jam dalam milidetik
 
         return () => clearInterval(intervalId) // Bersihkan interval saat komponen di-unmount
       }
 }, [token]);
-  const [queryClient] = useState(() => new QueryClient());
+  function Root(){
+    useEffect(()=>{
+      setShowChild(true)
+    },[])
+    useEffect(()=>{
+      if(showChild && statusPage == true){
+        if(router.pathname === '/'){
+          router.push("/")
+        } else if(router.pathname !== '/'){
+          router.push('/homepage')
+        }
+      }
+    },[showChild, statusPage])
+    if(!showChild){
+    return null
+    }
+    if(statusPage === false){
+      return <OfflinePageContainer/>
+    }
+    if(router.pathname === '/_error'){
+      return <NotFoundContainer/> 
+    }
+    if(showChild){
+      const listNoTemplate= ['/','/login']
+      if(!listNoTemplate.includes(router.pathname)){
+        return (
+          <Template>
+            <Component {...pageProps} />
+          </Template>
+        )
+      }
+      if(router.pathname === '/'){
+        return <RegistrasiContainer/>
+      } else {
+        return <Component {...pageProps} />
+      }
+    }
+  }
+  
+  
   return (
    <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
-      <ToastContainer />
+      <Head>
+        <title>Country</title>
+      </Head>
+      <div className="light m-0 p-0 box-border">
+        {isLoading && (
+          <div className="fixed  z-[1000] w-screen h-screen flex justify-center items-center bg-red-600 opacity-100 duration-1000 overflow-hidden">
+            <PulseLoader color="white" className="m-auto" size={40} />
+          </div>
+        )}
+        {Root()}
+        <ToastContainer />
+      </div>
     </QueryClientProvider>
   );
 }

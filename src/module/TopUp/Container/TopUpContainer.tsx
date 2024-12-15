@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 
 export default function TopUpContainer() {
-   const { selectedJenistrx }: IStore = Store()
+   const { selectedJenistrx , logOut}: IStore = Store()
   const router = useRouter()
   const [selectedTrx, setSelectedTrx] = useState("");
   const handleSelectedTrx = (vals:any) =>{
@@ -39,6 +39,7 @@ export default function TopUpContainer() {
       } else if(error.response.data.status === 108){
         toast.error(error.response.data.message)
         router.push("/login")
+        logOut()
       } else {
         toast.error(error.message)
         return

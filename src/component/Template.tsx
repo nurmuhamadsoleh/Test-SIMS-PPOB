@@ -1,9 +1,7 @@
-import { Button } from 'antd'
 import Image from 'next/image'
 import Link from 'next/link'
 import Logo from "../assets/images/Logo.png"
 import React from 'react'
-import { useRouter } from 'next/router'
 
 require('dayjs/locale/id')
 interface IProps {
@@ -11,23 +9,18 @@ interface IProps {
 }
 export default function Template(props: IProps) {
   const { children } = props
-     const router = useRouter()
-    const logOutGoogle = () => {
-
-        router.push("/") 
-    }
   return (
-    <div className=''>
+    <div >
       <div className='h-[10vh]  flex items-center '>
         <div className='flex justify-start w-10/12 '>
         <div className='flex items-center gap-x-2'>
          <Image src={Logo} width={20} height={20} alt='Logo SIMS PPOB'/>
           <h1 className='text-xl'>SIMS PPOB</h1></div>
         </div>
-        <div className="flex justify-end w-1/5 bg-pink-600 text-black">
+        <div className="flex justify-end w-1/5 bg-red-600 text-black">
           <div className="w-full ">
             <ul className="list-none flex gap-x-3 justify-center"> 
-              <li><Link href="/" className="no-underline text-black hover:text-white hover:font-bold font-medium hover:underline hover:underline-offset-2 hover:decoration-red-600 hover:pt-2 cursor-pointer">Top Up</Link></li>
+              <li><Link href="/homepage" className="no-underline text-black hover:text-white hover:font-bold font-medium hover:underline hover:underline-offset-2 hover:decoration-red-600 hover:pt-2 cursor-pointer">Top Up</Link></li>
               <li><Link href="/historypembayaran" className="no-underline text-black hover:text-white hover:font-bold font-medium hover:underline hover:underline-offset-2 hover:decoration-red-600 hover:pt-2 cursor-pointer">Transaction</Link></li>
               <li><Link href="/profile" className="no-underline text-black hover:text-white hover:font-bold font-medium hover:underline hover:underline-offset-2 hover:decoration-red-600 hover:pt-2 cursor-pointer">Akun</Link></li>
             </ul>

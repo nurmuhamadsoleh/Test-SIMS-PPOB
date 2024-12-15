@@ -9,7 +9,7 @@ import { toast } from "react-toastify"
 import { useRouter } from "next/router"
 
 export default function InformasiProfileContainer() {
-  const { token, setProfile }: IStore = Store()
+  const { setProfile , logOut}: IStore = Store()
   const router = useRouter()
   const { data: dataProfile, refetch: refetchDataProfile } = useQuery(['Get Profile Informasi'], GetProfileAPI);
   
@@ -43,6 +43,7 @@ const {profile_image, email, first_name, last_name}:any = dataProfile?.data || [
       } else if(error.response.data.status === 108){
         toast.error(error.response.data.message)
         router.push("/login")
+        logOut()
       } else {
         toast.error(error.message)
         return
